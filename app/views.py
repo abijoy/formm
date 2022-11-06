@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from .models import Formfillup
+from .forms import FormfillupForm
 
 # Create your views here.
 
@@ -19,6 +21,18 @@ def index(request):
     # return HttpResponse('hello world!')
 
 
-def registration(request):
-    return render(request, 'app/registration.html')
-    # return HttpResponse('hello world!')
+@login_required(login_url='/app/')
+def add_formfillup(request):
+	if request.method == 'POST':
+		form = FormfillupForm(request.POST)
+		if form.is_valid():
+			p = form.save(commit=False)
+			p.user = request.user
+			p.save()
+			return redirect(reverse('index'))
+	else:
+		form = FormfillupForm()
+	return render(request, 'app/add_formfillup.html', {'form': form})
+
+
+

@@ -1,0 +1,19 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+  Add Item - aBay
+{% endblock %} 
+  
+{% block content %}
+
+		<!-- no more gooling how to center a div; here comes the flexbox -->
+		<div class="d-md-flex justify-content-center">
+			<form method="post">
+			  {% csrf_token %}
+			  {{ form.as_p }}
+			  <button type="submit" class="btn btn-success">Submit</button>
+			</form>
+		</div>
+
+
+{% endblock %}
